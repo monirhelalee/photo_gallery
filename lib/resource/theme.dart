@@ -19,7 +19,7 @@ class AppTheme {
   );
   static const Color primaryColorConst = Color(0xff1D3160);
   static Color secondaryColor = Color(0xffC12037);
-  static Color primaryFontColor = Color(0xff1D3160);
+  static Color primaryFontColor = Colors.black;
   static Color secondaryFontColor = Color(0xffBABABA);
   static Color successFontColor = Color(0xff28B446);
   static Color errorFontColor = Color(0xffC12037);
