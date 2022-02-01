@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-List<ImageListModel> imageListModelFromJson(String str) =>
-    List<ImageListModel>.from(
-        json.decode(str).map((x) => ImageListModel.fromJson(x)));
+List<PhotoListModel> photoListModelFromJson(String str) =>
+    List<PhotoListModel>.from(
+        json.decode(str).map((x) => PhotoListModel.fromJson(x)));
 
-String imageListModelToJson(List<ImageListModel> data) =>
+String photoListModelToJson(List<PhotoListModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class ImageListModel {
-  ImageListModel({
+class PhotoListModel {
+  PhotoListModel({
     this.id,
     this.author,
     this.width,
@@ -24,7 +24,7 @@ class ImageListModel {
   String? url;
   String? downloadUrl;
 
-  factory ImageListModel.fromJson(Map<String, dynamic> json) => ImageListModel(
+  factory PhotoListModel.fromJson(Map<String, dynamic> json) => PhotoListModel(
         id: json["id"],
         author: json["author"],
         width: json["width"],
