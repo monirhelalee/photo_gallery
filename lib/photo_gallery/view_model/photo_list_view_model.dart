@@ -11,31 +11,47 @@ class PhotoListViewModel extends ChangeNotifier {
   static PhotoListViewModel watch(BuildContext context) =>
       context.watch<PhotoListViewModel>();
 
-  bool _isFetchingData = false;
   bool _isLoading = false;
+  bool _isMoreLoading = false;
   AppError? _appError;
   List<PhotoListModel> _photoListData = [];
+  int pageIndex = 1;
 
   Future<void> getPhotoListData() async {
-    _isFetchingData = true;
     _isLoading = true;
     var res = await PhotoListRepository().fetchPhotoListData();
     notifyListeners();
     res.fold((l) {
       _appError = l;
-      _isFetchingData = false;
+      _isLoading = false;
       notifyListeners();
     }, (r) {
       _isLoading = false;
-      _isFetchingData = false;
       _photoListData = r;
+      notifyListeners();
+    });
+  }
+
+  Future<void> getMorePhotoListData() async {
+    _isMoreLoading = true;
+    pageIndex++;
+    var res =
+        await PhotoListRepository().fetchPhotoListData(pageIndex: pageIndex);
+    notifyListeners();
+    res.fold((l) {
+      _appError = l;
+      _isMoreLoading = false;
+      notifyListeners();
+    }, (r) {
+      _isMoreLoading = false;
+      _photoListData.addAll(r);
       notifyListeners();
     });
   }
 
   AppError? get appError => _appError!;
 
-  bool get isFetchingData => _isFetchingData;
+  bool get isMoreLoading => _isMoreLoading;
 
   List<PhotoListModel> get photoListData => _photoListData;
 

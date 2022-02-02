@@ -23,8 +23,22 @@ class PhotoCardWidget extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: CachedNetworkImage(
-              imageUrl: photoData?.downloadUrl ?? "",
+              imageUrl: imageUrl ?? "",
               fit: BoxFit.cover,
+              fadeOutDuration: Duration.zero,
+              fadeInDuration: Duration.zero,
+              placeholder: (context, _) => Image.asset(
+                "assets/placeHolder.jpeg",
+                fit: BoxFit.cover,
+                gaplessPlayback: true,
+              ),
+              errorWidget: (context, _, __) => Image.asset(
+                "assets/placeHolder.jpeg",
+                fit: BoxFit.cover,
+                gaplessPlayback: true,
+              ),
+              useOldImageOnUrlChange: true,
+              placeholderFadeInDuration: Duration.zero,
             ),
           ),
         ),
