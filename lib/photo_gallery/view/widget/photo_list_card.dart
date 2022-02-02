@@ -3,14 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:photo_gallery/photo_gallery/model/photo_list_model.dart';
 import 'package:photo_gallery/resource/theme.dart';
+import 'package:photo_gallery/resource/urls.dart';
 
 class PhotoCardWidget extends StatelessWidget {
-  final String? authorName;
-  final String? imageUrl;
   final PhotoListModel? photoData;
-  const PhotoCardWidget(
-      {Key? key, this.authorName, this.imageUrl, this.photoData})
-      : super(key: key);
+  const PhotoCardWidget({Key? key, this.photoData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +20,7 @@ class PhotoCardWidget extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: CachedNetworkImage(
-              imageUrl: imageUrl ?? "",
+              imageUrl: "${Urls.baseUrl}/id/${photoData?.id}/360/360",
               fit: BoxFit.cover,
               fadeOutDuration: Duration.zero,
               fadeInDuration: Duration.zero,

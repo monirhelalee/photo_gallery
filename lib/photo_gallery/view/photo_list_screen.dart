@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:photo_gallery/photo_gallery/view/photo_full_screen.dart';
 import 'package:photo_gallery/photo_gallery/view/widget/photo_list_card.dart';
 import 'package:photo_gallery/photo_gallery/view_model/photo_list_view_model.dart';
 import 'package:photo_gallery/resource/string_resource.dart';
@@ -54,9 +55,27 @@ class _PhotoListScreenState extends State<PhotoListScreen> {
               mainAxisSpacing: 5.0,
             ),
             itemBuilder: (context, index) {
-              return PhotoCardWidget(
-                photoData: photoListVm.photoListData[index],
-                imageUrl: photoListVm.photoListData[index].downloadUrl,
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PhotoFullScreen(
+                                imageUrl: photoListVm
+                                        .photoListData[index].downloadUrl ??
+                                    "",
+                                authorName:
+                                    photoListVm.photoListData[index].author ??
+                                        "",
+                                id: photoListVm.photoListData[index].id ?? "",
+                              )));
+                },
+                child: Hero(
+                  tag: "Photo${photoListVm.photoListData[index].id}",
+                  child: PhotoCardWidget(
+                    photoData: photoListVm.photoListData[index],
+                  ),
+                ),
               );
             }),
       ),
