@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_gallery/photo_gallery/view/photo_list_screen.dart';
 import 'package:photo_gallery/photo_gallery/view_model/photo_list_view_model.dart';
@@ -21,6 +22,8 @@ class MyApp extends StatelessWidget {
         title: 'Photo Gallery',
         themeMode: ThemeMode.light,
         theme: AppTheme.primaryTheme,
+        builder: BotToastInit(),
+        navigatorObservers: [BotToastNavigatorObserver()],
         debugShowCheckedModeBanner: false,
         home: const PhotoListScreen(),
       ),
