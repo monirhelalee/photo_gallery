@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_downloader/image_downloader.dart';
+import 'package:photo_gallery/resource/string_resource.dart';
+import 'package:photo_gallery/utils/download_helper.dart';
 import 'package:photo_gallery/utils/share_helper.dart';
 import 'package:photo_gallery/utils/wallpaper_set_halper.dart';
 import 'package:wallpaper_manager_flutter/wallpaper_manager_flutter.dart';
@@ -75,9 +77,116 @@ class _PhotoFullScreenState extends State<PhotoFullScreen> {
               const SizedBox(),
               InkWell(
                 onTap: () {
-                  WallPaperSetHelper().setWallpaper(
-                      location: WallpaperManagerFlutter.HOME_SCREEN,
-                      url: widget.imageUrl);
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Material(
+                          type: MaterialType.transparency,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                              padding: const EdgeInsets.only(top: 20, left: 30),
+                              height: 210,
+                              width: MediaQuery.of(context).size.width * .9,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Set Wallpaper",
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      WallPaperSetHelper().setWallpaper(
+                                          location: WallpaperManagerFlutter
+                                              .HOME_SCREEN,
+                                          url: widget.imageUrl);
+                                      Navigator.pop(context);
+                                    },
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Icon(Icons.home_filled),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text(
+                                          StringResources.homeScreenText,
+                                          style:
+                                              GoogleFonts.poppins(fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      WallPaperSetHelper().setWallpaper(
+                                          location: WallpaperManagerFlutter
+                                              .LOCK_SCREEN,
+                                          url: widget.imageUrl);
+                                      Navigator.pop(context);
+                                    },
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Icon(Icons.lock),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text(
+                                          StringResources.lockScreenText,
+                                          style:
+                                              GoogleFonts.poppins(fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      WallPaperSetHelper().setWallpaper(
+                                          location: WallpaperManagerFlutter
+                                              .BOTH_SCREENS,
+                                          url: widget.imageUrl);
+                                      Navigator.pop(context);
+                                    },
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Icon(Icons.phone_android),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text(
+                                          StringResources.homeAndLockScreenText,
+                                          style:
+                                              GoogleFonts.poppins(fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      });
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -114,30 +223,8 @@ class _PhotoFullScreenState extends State<PhotoFullScreen> {
                 ),
               ),
               InkWell(
-                onTap: () async {
-                  BotToast.showLoading();
-                  try {
-                    var imageId =
-                        await ImageDownloader.downloadImage(widget.imageUrl);
-                    if (imageId == null) {
-                      BotToast.closeAllLoading();
-                      BotToast.showText(
-                          text: "Something wrong, Please try again!");
-                      return;
-                    }
-                    var fileName = await ImageDownloader.findName(imageId);
-                    var path = await ImageDownloader.findPath(imageId);
-                    var size = await ImageDownloader.findByteSize(imageId);
-                    var mimeType = await ImageDownloader.findMimeType(imageId);
-                    BotToast.closeAllLoading();
-                    BotToast.showText(
-                        text:
-                            "Download Successful!\nImage found in download folder.");
-                  } on PlatformException catch (error) {
-                    BotToast.closeAllLoading();
-                    BotToast.showText(
-                        text: "Something wrong, Please try again!");
-                  }
+                onTap: () {
+                  DownloadHelper().downloadImage(url: widget.imageUrl);
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
