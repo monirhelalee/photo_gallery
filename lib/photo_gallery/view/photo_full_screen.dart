@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_downloader/image_downloader.dart';
+import 'package:photo_gallery/utils/share_helper.dart';
+import 'package:photo_gallery/utils/wallpaper_set_halper.dart';
+import 'package:wallpaper_manager_flutter/wallpaper_manager_flutter.dart';
 
 class PhotoFullScreen extends StatefulWidget {
   final String imageUrl;
@@ -71,14 +74,18 @@ class _PhotoFullScreenState extends State<PhotoFullScreen> {
             children: [
               const SizedBox(),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  WallPaperSetHelper().setWallpaper(
+                      location: WallpaperManagerFlutter.HOME_SCREEN,
+                      url: widget.imageUrl);
+                },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
                       "assets/set_wallpaper.png",
-                      height: 20,
-                      width: 20,
+                      height: 18,
+                      width: 18,
                     ),
                     Text(
                       "Set",
@@ -88,11 +95,17 @@ class _PhotoFullScreenState extends State<PhotoFullScreen> {
                 ),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  ShareHelper()
+                      .share(url: widget.imageUrl, title: widget.authorName);
+                },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.share),
+                    const Icon(
+                      Icons.share,
+                      size: 20,
+                    ),
                     Text(
                       "Share",
                       style: GoogleFonts.poppins(),
@@ -119,7 +132,7 @@ class _PhotoFullScreenState extends State<PhotoFullScreen> {
                     BotToast.closeAllLoading();
                     BotToast.showText(
                         text:
-                            "Download Successful!\nImage find in download folder");
+                            "Download Successful!\nImage found in download folder.");
                   } on PlatformException catch (error) {
                     BotToast.closeAllLoading();
                     BotToast.showText(
@@ -129,7 +142,10 @@ class _PhotoFullScreenState extends State<PhotoFullScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.download),
+                    const Icon(
+                      Icons.download,
+                      size: 20,
+                    ),
                     Text(
                       "Download",
                       style: GoogleFonts.poppins(),
