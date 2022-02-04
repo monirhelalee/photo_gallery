@@ -18,6 +18,11 @@ class PhotoListViewModel extends ChangeNotifier {
   List<PhotoListModel> _photoListData = [];
   int pageIndex = 1;
 
+  set isMoreLoading(bool value) {
+    _isMoreLoading = value;
+    notifyListeners();
+  }
+
   Future<void> getPhotoListData() async {
     _isLoading = true;
     BotToast.showLoading(clickClose: true);
@@ -37,17 +42,17 @@ class PhotoListViewModel extends ChangeNotifier {
   }
 
   Future<void> getMorePhotoListData() async {
-    _isMoreLoading = true;
     pageIndex++;
+    isMoreLoading = true;
     var res =
         await PhotoListRepository().fetchPhotoListData(pageIndex: pageIndex);
     notifyListeners();
     res.fold((l) {
       _appError = l;
-      _isMoreLoading = false;
+      isMoreLoading = false;
       notifyListeners();
     }, (r) {
-      _isMoreLoading = false;
+      isMoreLoading = false;
       _photoListData.addAll(r);
       notifyListeners();
     });

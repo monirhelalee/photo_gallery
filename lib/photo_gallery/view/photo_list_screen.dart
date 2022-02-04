@@ -46,38 +46,50 @@ class _PhotoListScreenState extends State<PhotoListScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(5.0),
-        child: GridView.builder(
-            controller: _scrollController,
-            itemCount: photoListVm.photoListData.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 5.0,
-              mainAxisSpacing: 5.0,
-            ),
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PhotoFullScreen(
-                                imageUrl: photoListVm
-                                        .photoListData[index].downloadUrl ??
-                                    "",
-                                authorName:
-                                    photoListVm.photoListData[index].author ??
-                                        "",
-                                id: photoListVm.photoListData[index].id ?? "",
-                              )));
-                },
-                child: Hero(
-                  tag: "Photo${photoListVm.photoListData[index].id}",
-                  child: PhotoCardWidget(
-                    photoData: photoListVm.photoListData[index],
-                  ),
+        child: Stack(
+          alignment: AlignmentDirectional.bottomCenter,
+          children: [
+            GridView.builder(
+                controller: _scrollController,
+                itemCount: photoListVm.photoListData.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 5.0,
+                  mainAxisSpacing: 5.0,
                 ),
-              );
-            }),
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PhotoFullScreen(
+                                    imageUrl: photoListVm
+                                            .photoListData[index].downloadUrl ??
+                                        "",
+                                    authorName: photoListVm
+                                            .photoListData[index].author ??
+                                        "",
+                                    id: photoListVm.photoListData[index].id ??
+                                        "",
+                                  )));
+                    },
+                    child: Hero(
+                      tag: "Photo${photoListVm.photoListData[index].id}",
+                      child: PhotoCardWidget(
+                        photoData: photoListVm.photoListData[index],
+                      ),
+                    ),
+                  );
+                }),
+            photoListVm.isMoreLoading
+                ? const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: CircularProgressIndicator(),
+                  )
+                : const SizedBox(),
+          ],
+        ),
       ),
     );
   }
