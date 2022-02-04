@@ -9,7 +9,8 @@ import 'package:photo_gallery/utils/failure/app_error.dart';
 class PhotoListRepository {
   Future<Either<AppError, List<PhotoListModel>>> fetchPhotoListData(
       {int pageIndex = 1}) async {
-    var url = "${Urls.imageListUrl}?page=$pageIndex&limit=10";
+    var url = "${Urls.imageListUrl}?page=$pageIndex&limit=20";
+    debugPrint(url);
     var response = await ApiClient().getRequest(url);
     debugPrint("photo list data ${response.body}");
     if (response.statusCode == 200) {

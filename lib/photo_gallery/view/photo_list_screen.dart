@@ -24,8 +24,8 @@ class _PhotoListScreenState extends State<PhotoListScreen> {
       await photoListVm.getPhotoListData();
     });
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels >
-          _scrollController.position.maxScrollExtent - 500) {
+      if (_scrollController.offset ==
+          _scrollController.position.maxScrollExtent) {
         photoListVm.getMorePhotoListData();
       }
     });

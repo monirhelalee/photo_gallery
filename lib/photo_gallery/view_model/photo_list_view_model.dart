@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:photo_gallery/photo_gallery/model/photo_list_model.dart';
 import 'package:photo_gallery/photo_gallery/repository/photo_list_repo.dart';
@@ -19,15 +20,18 @@ class PhotoListViewModel extends ChangeNotifier {
 
   Future<void> getPhotoListData() async {
     _isLoading = true;
+    BotToast.showLoading(clickClose: true);
     var res = await PhotoListRepository().fetchPhotoListData();
     notifyListeners();
     res.fold((l) {
       _appError = l;
       _isLoading = false;
+      BotToast.closeAllLoading();
       notifyListeners();
     }, (r) {
       _isLoading = false;
       _photoListData = r;
+      BotToast.closeAllLoading();
       notifyListeners();
     });
   }
