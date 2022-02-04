@@ -29,9 +29,9 @@
 
 ## Project Environment:
 ```
-Flutter (Channel stable, 2.8.1)
-Android Studio (version 2021.1)
-Dart SDK version: 2.15.1 (stable) 
+=> Flutter (Channel stable, 2.8.1)
+=> Android Studio (version 2021.1)
+=> Dart SDK version: 2.15.1 (stable) 
 ```
 
 
