@@ -1,5 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:photo_gallery/resource/string_resource.dart';
 import 'package:wallpaper_manager_flutter/wallpaper_manager_flutter.dart';
 
 class WallPaperSetHelper {
@@ -9,10 +10,10 @@ class WallPaperSetHelper {
     try {
       WallpaperManagerFlutter().setwallpaperfromFile(file, location);
       BotToast.closeAllLoading();
-      BotToast.showText(text: "Wallpaper set Successfully!");
+      BotToast.showText(text: StringResources.wallpaperSuccessText);
     } catch (e) {
       BotToast.closeAllLoading();
-      BotToast.showText(text: "Something wrong! Please try again.");
+      BotToast.showText(text: StringResources.wallpaperSetErrorText);
     }
   }
 }
