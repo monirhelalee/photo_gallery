@@ -18,7 +18,8 @@ class DownloadHelper {
       var mimeType = await ImageDownloader.findMimeType(imageId);
       BotToast.closeAllLoading();
       BotToast.showText(
-          text: "Download Successful!\nImage found in download folder.");
+          text:
+              "Download Successful!\nImage can be found in the download folder");
     } on PlatformException catch (error) {
       BotToast.closeAllLoading();
       BotToast.showText(text: "Something wrong, Please try again!");
